@@ -14,6 +14,16 @@
       <form action="#" target="dummyframe">
         <input type="password" id="pass-input">
         <button type="submit" onclick="javascript:validateUser();" id="pass-submit">Login</button>
+        <br><div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <br><a href="#" onclick="signOut();">Sign out</a>
+        <script>
+          function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+              console.log('User signed out.');
+            });
+          }
+        </script>
         <br>
         <p id="alerta"></p>
         <br>
@@ -48,8 +58,10 @@
     </div>
     <script src="../static/js/jquery-3.4.1.js"></script>
     <script src="../static/js/js.cookie.js"></script>
-    <script src="/static/js/cam.js"></script>
     <script src="/static/js/date.format.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="/static/js/cam.js"></script>
+    <meta name="google-signin-client_id" content="643864459973-vm48ife7v5k1dmmin80ff4rbqn82nc0t.apps.googleusercontent.com">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!--

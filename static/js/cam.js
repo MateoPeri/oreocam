@@ -1,5 +1,7 @@
 Cookies.set('Admin', false);
 var msgs = []
+var profile;
+var id_token;
 setInterval(refresh_msgs, 2500); //Reload file every 2500 ms or x ms if you wish to c
 retrieve_msgs();
 
@@ -65,12 +67,32 @@ function validateUser() {
 }
 
 function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    profile = googleUser.getBasicProfile();
+    id_token = googleUser.getAuthResponse().id_token;
+    Cookies.set('Name', profile.getName());
+    Cookies.set('Image', profile.getImageUrl());
+    Cookies.set('IDToken', id_token);
+
+    console.log('IDToken: ' + id_token); // Do not send to your backend! Use an ID token instead.
     console.log('Name: ' + profile.getName());
     console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  }
+}
+
+function isAdmin() {
+    $.ajax({
+        type: "POST",
+        url: "/is_admin",
+        data: JSON.stringify(Cookies.get('IDToken')),
+        success: function(response)
+        {
+            return JSON.parse(response);
+        },
+        error: function(data)
+        {
+            alert('ERROR\n' + data.responseText);
+        },
+    });
+}
 
 function send_message() {
     var msg = $('#chat_input').val()

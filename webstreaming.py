@@ -26,7 +26,7 @@ messages_db = TinyDB('messages_db.json')
 app = Flask(__name__)
 
 # initialize the video stream and allow the camera sensor to warmup
-vs = cv2.VideoCapture(1)
+vs = cv2.VideoCapture(0) # a veces es 1
 time.sleep(2.0)
 
 @app.route("/")

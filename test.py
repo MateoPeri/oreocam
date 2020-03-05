@@ -1,20 +1,14 @@
-import json, time
-from datetime import datetime
+# import the necessary packages
+from imutils.video import VideoStream
+import cv2, imutils
+import time
 
-t1 = datetime.timestamp(datetime.now())
-time.sleep(2.0)
-t2 = datetime.timestamp(datetime.now())
+# initialize the video stream and allow the camera sensor to warmup
+cam = cv2.VideoCapture(0)
+while True:
+    ret_val, img = cam.read()
+    cv2.imshow('my webcam', img)
+    if cv2.waitKey(1) == 27: 
+        break  # esc to quit
 
-li = [
-    {'Username': 'Pepe', 'Message': 'Hola', 'Timestamp': t2},
-    {'Username': 'Juan', 'Message': 'adios', 'Timestamp': t1}
-    ]
-newest_msg = sorted(li, key=lambda k: k['Timestamp'])
-print(json.dumps(newest_msg[:2]))
-
-f = "dd/mm/yyyy hh:MM:ss"
-for m in newest_msg:
-    print(datetime.fromtimestamp(m['Timestamp']).strftime("%H:%M"))
-
-print(type(1582222050320))
-print(datetime.fromtimestamp(1582222050320/1000).strftime("%H:%M"))
+cv2.destroyAllWindows()
